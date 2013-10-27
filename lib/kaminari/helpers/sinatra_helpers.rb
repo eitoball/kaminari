@@ -3,7 +3,20 @@ require 'active_support/core_ext/string'
 
 begin
 
+String.class_eval do
+  alias_method :original_clear, :clear
+end
+
 require 'padrino-helpers'
+
+# See https://github.com/padrino/padrino-framework/issues/1438
+if String.colors.key?(:clear)
+  String.class_eval do
+    undef_method :clear
+    alias_method :clear, :original_clear
+  end
+end
+
 module Kaminari::Helpers
   module SinatraHelpers
     class << self
