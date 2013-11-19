@@ -49,6 +49,14 @@ end
 class Device < Product
 end
 
+module Auditable
+  class Base < ActiveRecord::Base
+    self.abstract_class = true
+  end
+  class Audit < Base
+  end
+end
+
 #migrations
 class CreateAllTables < ActiveRecord::Migration
   def self.up
@@ -59,6 +67,7 @@ class CreateAllTables < ActiveRecord::Migration
     create_table(:authorships) {|t| t.integer :user_id; t.integer :book_id }
     create_table(:user_addresses) {|t| t.string :street; t.integer :user_id }
     create_table(:devices) {|t| t.string :name; t.integer :age}
+    create_table(:audits) {|t| t.string :name}
   end
 end
 ActiveRecord::Migration.verbose = false

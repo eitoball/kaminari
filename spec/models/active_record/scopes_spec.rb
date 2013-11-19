@@ -240,4 +240,11 @@ if defined? ActiveRecord
       end
     end
   end
+
+  describe Kaminari::ActiveRecordExtension, 'with namespace and abstract class' do
+    before { 20.times { |i| Auditable::Audit.create!(name: "Name #{i}") } }
+    it 'should not raise exception' do
+      lambda { Auditable::Audit.page(1).per(10) }.should_not raise_error
+    end
+  end
 end
